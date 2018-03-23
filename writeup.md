@@ -14,9 +14,9 @@ The goals / steps of this project are the following:
 ### 1. Dataset Exploration
 
 Dataset is provided in Udacity project kit, which include 
-labeled 34799 of training data, 
-labeled 4410 test data.
-the number of classes are 43. 
+labeled 34799 of training data,  
+labeled 4410 test data. 
+the number of classes are 43.  
 
 All picture data size is already adjusted to 32x32 size. Those are colored data.
 
@@ -33,27 +33,28 @@ openCV is used to do this.
 
 Network is pretty much same as LeNet, except 2 added dropout in last 2 layer.
 Therefore network structure is 
-32 x 32 input
-5x5x1x6 convolution layer
-Relu activation
-2 x 2 Max pooling
-5x5x6x16 convolution layer
-Relu activation
-2 x 2 Max pooling
-flatten 5x5x16 to 400
-Fully connected layer, input 400 to 120
-Relu activation
-Random dropout (ratio = 0.5)
-Fully connected layer, input 120 to 84
-Relu activation
-Random dropout (ratio = 0.5)
-Fully connected layer, input 84 to 42
+32 x 32 input  
+5x5x1x6 convolution layer  
+Relu activation  
+2 x 2 Max pooling  
+5x5x6x16 convolution layer  
+Relu activation  
+2 x 2 Max pooling  
+flatten 5x5x16 to 400  
+Fully connected layer, input 400 to 120  
+Relu activation  
+Random dropout (ratio = 0.5)  
+Fully connected layer, input 120 to 84  
+Relu activation  
+Random dropout (ratio = 0.5)  
+Fully connected layer, input 84 to 42  
 
 3. Model Training
-Hyper parameter is adjucted to following,
-Learning rate: 0.002
-EPOCHS = 20
-BATCH SIZE = 256
+
+Hyper parameter is adjucted to following,  
+Learning rate: 0.002  
+EPOCHS = 20  
+BATCH SIZE = 256  
 
 validation accuracy against validation data set is checked, and seems almost stable at 20 epochs.
 
@@ -84,5 +85,4 @@ The big factors that may affected to this result is
 -- size of sign are different between training data and test data from web. 
 -- picture resolution. high definition picture may give better answer.Some training data are very hard to identyfy by human too. 
 -- color data could work better?
--- 
 
