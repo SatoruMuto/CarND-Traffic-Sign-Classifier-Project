@@ -11,53 +11,78 @@ The goals / steps of this project are the following:
 
 ---
 
-### Reflection
+### 1. Dataset Exploration
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+Dataset is provided in Udacity project kit, which include 
+labeled 34799 of training data, 
+labeled 4410 test data.
+the number of classes are 43. 
 
-My pipeline consisted of 5 steps.   
-  1. Convert original image to grayed image.
-  2. Apply gaussian_blur to remove noise
-  3. Apply canny to extract edge
-  4. take data from necessary regione
-  5. calculate left line and right line from No4 line data.
-
-In order to draw a single line on the left and right lanes, I created the draw_onelines() function.
-This function calculate average slope of right lines and leftlines, starting point and end point of each line.
-starting point is defined as the bottom of picture.
+All picture data size is already adjusted to 32x32 size. Those are colored data.
 
 
-### 2. Identify potential shortcomings with your current pipeline
 
+### 2. Design and Test a Model Architecture
 
-One potential shortcoming would be what would happen when line are multiple, or line length is not enough.
+1. Preprocessing
 
-Another shortcoming could be below
-    1. when vehicle change lane, this program could not identify line.
-    2. Different line color can not be detected
-    3. If other vehicle (especially white vehicle) is very close, line will be lost.
-    4.    
+Before put data into network, all images will be coverted to grayscale, and brightness will be adjusted.
+openCV is used to do this.
 
+2. Model Architecture
 
-### 3. Suggest possible improvements to your pipeline
+Network is pretty much same as LeNet, except 2 added dropout in last 2 layer.
+Therefore network structure is 
+32 x 32 input
+5x5x1x6 convolution layer
+Relu activation
+2 x 2 Max pooling
+5x5x6x16 convolution layer
+Relu activation
+2 x 2 Max pooling
+flatten 5x5x16 to 400
+Fully connected layer, input 400 to 120
+Relu activation
+Random dropout (ratio = 0.5)
+Fully connected layer, input 120 to 84
+Relu activation
+Random dropout (ratio = 0.5)
+Fully connected layer, input 84 to 42
 
-A possible improvement would be to add robustness to multiple edge detection. The average method may not be the best method to make 1 line. 
+3. Model Training
+Hyper parameter is adjucted to following,
+Learning rate: 0.002
+EPOCHS = 20
+BATCH SIZE = 256
 
+validation accuracy against validation data set is checked, and seems almost stable at 20 epochs.
 
-## 
+4. Solution approach
 
-### 4. requirement compliance 
+Drop out affected to validation accuracy significantly. 
+Then final adjustment was done with fine tune of hyper parameters, and brightness adjustement.
 
- - 4-1 Does the pipeline for line identification take road images from a video as input and return an annotated video stream as output?
-   Done  
- - 4-2  Has a pipeline been implemented that uses the helper functions and / or other code to roughly identify the left and right lane lines with either line segments or solid lines?   
-   Roughly. Accuracy need to be improved...
- - 4-3 Have detected line segments been filtered / averaged / extrapolated to map out the full extent of the left and right lane boundaries? 
-    Roughly done. Accuracy need to be improved...
- - 4-4 Has a thoughtful reflection on the project been provided in the notebook?  
-    Yes
+### 3. Test a model on New Images
 
-## reference used to complete this project
+1. Acuiring New images
 
-ref1 : https://qiita.com/k_sui_14/items/92fd84f35245ad0be464  
-ref2 : http://postd.cc/image-processing-101/  
+I have used images from wikipedia, that are not a "picture" but drawing to show definition. 
+(Also checked with some picture but seems that this drawing sometime are difficult to classify)
+
+2. Performance on new images
+
+The performance sometime vary. On submitted notebook, the rate is 0.6.
+It will be 0.8 sometime, or be 0.4 sometime. 
+
+3. Model certainty
+
+Probability to label is on the graph in notetbook. 
+Then it shows that the network gave 100% of probability to wrong answer in one case.
+Seems that the newtwork has confidence to answer and there are no correlation between certenty and answer rate on my network.
+
+The big factors that may affected to this result is 
+-- size of sign are different between training data and test data from web. 
+-- picture resolution. high definition picture may give better answer.Some training data are very hard to identyfy by human too. 
+-- color data could work better?
+-- 
+
